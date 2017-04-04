@@ -16,7 +16,7 @@ void SchedFCFS::load(int pid) {
 }
 
 void SchedFCFS::unblock(int pid) {
-	// Uy! unblock!... bueno, ya seguir'a en el próximo tick
+	// Uy! unblock!... bueno, ya seguirá en el próximo tick
 }
 
 int SchedFCFS::tick(int cpu, const enum Motivo m) {
