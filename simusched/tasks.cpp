@@ -28,7 +28,7 @@ void TaskConsola(int pid, vector<int> params) {
 	}
 }
 
-void TaskPajarillo(int pid, vector<int> params) { //cantidad repeticiones,tiempo cpu y tiempo bloqueo
+void TaskPajarillo(int pid, vector<int> params) { //params: cantidad repeticiones, tiempo cpu, tiempo bloqueo, ...
 	int n = params[0];
 	int cput = params[1];
 	int blockt = params[2];
@@ -38,6 +38,10 @@ void TaskPajarillo(int pid, vector<int> params) { //cantidad repeticiones,tiempo
 	}
 }
 
+void TaskPriorizada(int pid, vector<int> params) { //params: prioridad (1-5), tiempo cpu, ... FALTA VER COMO PASAR LA PRIORIDAD AL SCHED
+	int prioridad = params[0];
+	uso_CPU(pid, params[1]);
+}
 
 
 void tasks_init(void) {

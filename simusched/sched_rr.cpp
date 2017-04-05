@@ -8,10 +8,10 @@ using namespace std;
 
 SchedRR::SchedRR(vector<int> argn) {
 	// Round robin recibe la cantidad de cores y sus cpu_quantum por parámetro
-  for (int i = 1; i < argn.size(); i++) {
-    cpu_quantums.push_back(argn[i]);
-    cpu_tics.push_back(argn[i]);
-    cpu_pids.push_back(IDLE_TASK);
+  for (int i = 1; i < (int)argn.size(); i++) {
+    cpu_quantums.push_back(argn[i]);      // quantum inicial de cada core
+    cpu_ticks.push_back(argn[i]);         // ticks restantes para completar el quantum
+    cpu_pids.push_back(IDLE_TASK);        // pid de la tarea siendo ejecutada por cada core
   }
 }
 
@@ -26,15 +26,16 @@ void SchedRR::unblock(int pid) {
 }
 
 int SchedRR::tick(int cpu, const enum Motivo m) {
-  // decrementa los tics restantes para completar el quantum para el cpu que llama la función
-  cpu_tics[cpu]--;
+  // decrementa los ticks restantes para completar el quantum para el cpu que llama la función
+  cpu_ticks[cpu]--;
   // si el motivo es TICK
   if (m == TICK) {
     // si la tarea actual no es IDLE_TASK 
     if (cpu_pids[cpu] != IDLE_TASK) {
-      // si quedan tics para completar el quantum
-      if (cpu_tics[cpu] != 0)  
-        return cpu_pids[cpu];
+      // si quedan ticks para completar el quantum
+      if (cpu_ticks[cpu] != 0)
+        // quedan ticks, sigo corriendo la misma  
+        return cpu_pids[cpu]; 
       else
         // si se completó el quantum, se encola como tarea READY
         ready_tasks.push(cpu_pids[cpu]);
@@ -42,7 +43,7 @@ int SchedRR::tick(int cpu, const enum Motivo m) {
   }
 
   // reinicia los tics restantes para completar el quantum, para la cpu dada
-  cpu_tics[cpu] = cpu_quantums[cpu];
+  cpu_ticks[cpu] = cpu_quantums[cpu];
   
   // busca nueva tarea a ejecutar
   int next_task;
