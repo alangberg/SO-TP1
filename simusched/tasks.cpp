@@ -55,3 +55,4 @@ void tasks_init(void) {
 	register_task(TaskPajarillo, 3);
 	registrar_task(TaskPriorizada,2);
 }
+ //aaa
