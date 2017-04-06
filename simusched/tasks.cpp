@@ -53,4 +53,5 @@ void tasks_init(void) {
 	register_task(TaskAlterno, -1);
 	register_task(TaskConsola, 3);
 	register_task(TaskPajarillo, 3);
+	registrar_task(TaskPriorizada,2);
 }
