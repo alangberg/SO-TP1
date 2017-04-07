@@ -8,7 +8,8 @@ using namespace std;
 
 SchedPSJF::SchedPSJF(vector<int> argn) {
 	// Round robin recibe la cantidad de cores y sus cpu_quantum por parámetro
-	for (int i = 1; i < (int)argn.size(); i++)
+	// cout<<"coreees: "<<argn[0]<<endl;
+	for (int i = 0; i < argn[0]; i++)
 	{
 		cpu_prioridades.push_back(6); //Absurdo
 		cpu_duraciones.push_back(-1);		
@@ -30,11 +31,10 @@ void SchedPSJF::unblock(int pid) {
 }
 
 int SchedPSJF::tick(int cpu, const enum Motivo m) {
+	// cout<<"tick con motivo"<<m<<endl;
 	if(m == EXIT){
 		if(ready_tasks.empty()){
 			return IDLE_TASK;
-			// cpu_prioridades[cpu] = 6;
-			// cpu_duraciones[cpu] = -1;
 		}else{
 			int next_task = get<0>(ready_tasks.top());
 			cpu_prioridades[cpu] = get<1>(ready_tasks.top());
@@ -47,8 +47,7 @@ int SchedPSJF::tick(int cpu, const enum Motivo m) {
 		//m == TICK
 		if(current_pid(cpu)==IDLE_TASK){
 			if(ready_tasks.empty()){
-				// cpu_prioridades[cpu] = 6;
-				// cpu_duraciones[cpu] = -1;
+
 				return IDLE_TASK;
 			}else{
 				int next_task = get<0>(ready_tasks.top());
