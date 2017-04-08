@@ -26,7 +26,7 @@ void SchedRR::unblock(int pid) {
 }
 
 int SchedRR::tick(int cpu, const enum Motivo m) {
-  // decrementa los ticks restantes para completar el quantum para el cpu que llama la función
+  // decrementa los ticks restantes para completar el quantum en la cpu que llama la función
   cpu_ticks[cpu]--;
   // si el motivo es TICK
   if (m == TICK) {
