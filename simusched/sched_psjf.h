@@ -7,6 +7,9 @@
 #include <tuple>
 using namespace std;
 
+#define IDLE_PRIORITY 6
+#define IDLE_DURATION 0
+
 class SchedPSJF : public SchedBase {
 	public:
 		SchedPSJF(std::vector<int> argn);
@@ -16,26 +19,26 @@ class SchedPSJF : public SchedBase {
 		virtual int tick(int cpu, const enum Motivo m);
 
 	private:
-        // vector<int> cpu_quantums; // Contiene para cada cpu la cantidad de quantums configurada. Cada cpu se identifica con su posición en el vector.
-        
-        // vector<int> cpu_ticks;    // Cantidad de tics restantes para completar el quantum.
-        
-        // vector<int> cpu_pids;     // Contiene para cada cpu el pid de la tarea ejecutandose actualmente.
-		struct ComparePair {
-      		bool operator()(tuple<int,int,int> const & p1, tuple<int,int,int> const & p2) {
-          // return "true" if "p1" is ordered before "p2", for example:
-          return (get<1>(p1) > get<1>(p2)) || ((get<1>(p1) == get<1>(p2)) && (get<2>(p1) > get<2>(p2))) ;
+		
+    // Definición de operador < (t1 < t2) 
+    struct CompareTuple {
+  		bool operator()(tuple<int,int,int> const & t1, tuple<int,int,int> const & t2) {
+        // devuelve "true" si la tarea t2 es más prioritaria que t1 
+        return (get<1>(t1) > get<1>(t2)) || ((get<1>(t1) == get<1>(t2)) && (get<2>(t1) > get<2>(t2))) ;
       }
     };
-    priority_queue<tuple<int,int,int>, vector< tuple<int,int,int> >, ComparePair> ready_tasks;
- 
 
-    //Prioridad que viene corriendo en cada CPU
+    // Cola de prioridad donde se guardan las tareas ready
+    priority_queue<tuple<int,int,int>, vector< tuple<int,int,int> >, CompareTuple> ready_tasks;
+
+    // Prioridad de la tarea que está ejecutando cada CPU
     vector<int> cpu_prioridades;
 
-    //Duracion tarea que viene corriendo en cada CPU
+    // Duracion de la tarea que está ejecutando cada CPU
     vector<int> cpu_duraciones;
 
+    // Flag que indica con 1 que una nueva tarea fue cargada
+    int nueva_tarea;
 };
 
 #endif
