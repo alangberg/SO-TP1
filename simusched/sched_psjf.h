@@ -36,9 +36,6 @@ class SchedPSJF : public SchedBase {
 
     // Duracion de la tarea que está ejecutando cada CPU
     vector<int> cpu_duraciones;
-
-    // Flag que indica con 1 que una nueva tarea fue cargada
-    int nueva_tarea;
 };
 
 #endif
